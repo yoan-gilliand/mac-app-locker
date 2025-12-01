@@ -80,6 +80,6 @@ struct LockScreenView: View {
     }
 }
 
-#Preview {
-    LockScreenView(appName: "Safari", onUnlock: {}, onQuit: {})
-}
+// #Preview {
+//     LockScreenView(appName: "Safari", onUnlock: {}, onQuit: {})
+// }

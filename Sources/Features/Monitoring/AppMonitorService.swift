@@ -197,7 +197,6 @@ final class AppMonitorService: ObservableObject {
             // 7. Unhide and Activate the app
             app.unhide()
             app.activate(options: .activateIgnoringOtherApps)
-
         } else {
             logger.warning("Authentication failed. Keeping \(app.localizedName ?? "Unknown") locked.")
             // Ensure we stay on top

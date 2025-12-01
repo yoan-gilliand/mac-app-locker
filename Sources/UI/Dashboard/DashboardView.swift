@@ -21,7 +21,7 @@ struct DashboardView: View {
         NavigationSplitView {
             List(selection: $selectedAppID) {
                 Section(header: Text("Locked Apps")) {
-                    ForEach(viewModel.lockedApps) { app in
+                    ForEach(viewModel.lockedApps, id: \.bundleIdentifier) { app in
                         HStack {
                             Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
                                 .resizable()
@@ -75,11 +75,9 @@ struct DashboardView: View {
                     print("Importer failed: \(error.localizedDescription)")
                 }
             }
-
         } detail: {
             if let selectedID = selectedAppID,
-               let app = viewModel.lockedApps.first(where: { $0.bundleIdentifier == selectedID })
-            {
+               let app = viewModel.lockedApps.first(where: { $0.bundleIdentifier == selectedID }) {
                 VStack(spacing: 20) {
                     Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
                         .resizable()

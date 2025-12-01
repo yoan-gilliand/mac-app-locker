@@ -63,9 +63,25 @@ The project follows a clean **MVVM (Model-View-ViewModel)** architecture with a 
     ```
 
 4.  **Open in Xcode**:
-    Double-click `Package.swift` or open the folder in Xcode.
+    ```bash
+    open Package.swift
+    ```
+    
+    Select the `MacAppLocker` scheme and hit `Cmd+R` to build and run.
 
 ## 👨‍💻 Development Workflow
+
+### Building and Testing
+
+This project uses **Xcode** for building and testing (required for SwiftData macro support):
+
+```bash
+# Build
+xcodebuild -scheme MacAppLocker -destination 'platform=macOS' build
+
+# Run Tests
+xcodebuild -scheme MacAppLocker -destination 'platform=macOS' test
+```
 
 ### Code Style
 The project enforces strict code style rules.

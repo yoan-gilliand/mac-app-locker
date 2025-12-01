@@ -20,10 +20,14 @@ DerivedData
 # Swift Package Manager
 #
 .build/
-.swiftpm/
+# .swiftpm/ - Commented out to allow sharing Xcode schemes
 
 # CocoaPods
 #
 # We aren't using Pods, but good to have
 Pods/
+*.xcworkspace
+
+# Package.resolved is tracked for reproducible builds
+# !Package.resolved
 Start
