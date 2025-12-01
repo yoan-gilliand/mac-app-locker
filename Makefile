@@ -30,3 +30,12 @@ run: ## Build and run the app (use Xcode GUI instead)
 	@echo "To run the app, use Xcode:"
 	@echo "  open Package.swift"
 	@echo "  Then press Cmd+R"
+
+archive: ## Build .app bundle for distribution
+	xcodebuild -scheme MacAppLocker -destination 'platform=macOS' -configuration Release clean build
+	@echo ""
+	@echo "✅ Build complete! App location:"
+	@find ~/Library/Developer/Xcode/DerivedData -name "MacAppLocker.app" -path "*/Build/Products/Release/*" 2>/dev/null | head -1
+	@echo ""
+	@echo "To open the build folder:"
+	@echo "  open ~/Library/Developer/Xcode/DerivedData/mac-app-locker*/Build/Products/Release/"
