@@ -21,7 +21,7 @@ final class SettingsService: ObservableObject {
     // MARK: - Properties
 
     private var cancellables = Set<AnyCancellable>()
-    private let defaults = UserDefaults.standard
+    private let defaults: UserDefaults
 
     // MARK: - Published Settings
 
@@ -45,7 +45,8 @@ final class SettingsService: ObservableObject {
 
     // MARK: - Initialization
 
-    init() {
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
         launchAtLogin = defaults.bool(forKey: "launchAtLogin")
         showMenuBarIcon = defaults.object(forKey: "showMenuBarIcon") as? Bool ?? true
         showDockIcon = defaults.object(forKey: "showDockIcon") as? Bool ?? true
