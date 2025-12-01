@@ -9,15 +9,9 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // MARK: - State
+    // MARK: - Properties
 
-    @AppStorage("launchAtLogin") private var launchAtLogin = false
-    @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
-    @AppStorage("showDockIcon") private var showDockIcon = true
-    @AppStorage("requireAuthToUnlock") private var requireAuthToUnlock = true
-    @AppStorage("requireAuthToQuit") private var requireAuthToQuit = false
-    @AppStorage("hideFromMissionControl") private var hideFromMissionControl = true
-
+    @StateObject private var settingsService = DIContainer.shared.settingsService
     @Environment(\.dismiss) private var dismiss
 
     // MARK: - Body
@@ -51,13 +45,13 @@ struct SettingsView: View {
     private var generalTab: some View {
         Form {
             Section {
-                Toggle("Launch at Login", isOn: $launchAtLogin)
+                Toggle("Launch at Login", isOn: $settingsService.launchAtLogin)
                     .help("Automatically start Mac App Locker when you log in")
 
-                Toggle("Show Menu Bar Icon", isOn: $showMenuBarIcon)
+                Toggle("Show Menu Bar Icon", isOn: $settingsService.showMenuBarIcon)
                     .help("Display lock icon in the menu bar")
 
-                Toggle("Show Dock Icon", isOn: $showDockIcon)
+                Toggle("Show Dock Icon", isOn: $settingsService.showDockIcon)
                     .help("Show app icon in the Dock")
             } header: {
                 Text("Appearance")
@@ -72,11 +66,18 @@ struct SettingsView: View {
     private var securityTab: some View {
         Form {
             Section {
-                Toggle("Require Authentication to Unlock", isOn: $requireAuthToUnlock)
-                    .help("Use Touch ID or Password to unlock apps")
+                // These are not yet in SettingsService, using AppStorage for now or need to add them
+                Toggle("Require Authentication to Unlock", isOn: Binding(
+                    get: { UserDefaults.standard.bool(forKey: "requireAuthToUnlock") },
+                    set: { UserDefaults.standard.set($0, forKey: "requireAuthToUnlock") }
+                ))
+                .help("Use Touch ID or Password to unlock apps")
 
-                Toggle("Require Authentication to Quit Locked Apps", isOn: $requireAuthToQuit)
-                    .help("Prevent quitting locked apps without authentication")
+                Toggle("Require Authentication to Quit Locked Apps", isOn: Binding(
+                    get: { UserDefaults.standard.bool(forKey: "requireAuthToQuit") },
+                    set: { UserDefaults.standard.set($0, forKey: "requireAuthToQuit") }
+                ))
+                .help("Prevent quitting locked apps without authentication")
             } header: {
                 Text("Authentication")
                     .font(.headline)
@@ -96,8 +97,11 @@ struct SettingsView: View {
     private var advancedTab: some View {
         Form {
             Section {
-                Toggle("Hide Apps from Mission Control", isOn: $hideFromMissionControl)
-                    .help("Locked apps won't appear in Mission Control")
+                Toggle("Hide Apps from Mission Control", isOn: Binding(
+                    get: { UserDefaults.standard.bool(forKey: "hideFromMissionControl") },
+                    set: { UserDefaults.standard.set($0, forKey: "hideFromMissionControl") }
+                ))
+                .help("Locked apps won't appear in Mission Control")
             } header: {
                 Text("Privacy")
                     .font(.headline)

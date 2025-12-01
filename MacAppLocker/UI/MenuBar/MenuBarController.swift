@@ -26,25 +26,47 @@ final class MenuBarController: ObservableObject {
 
     // MARK: - Public API
 
+    // MARK: - Public API
+
     /// Sets up the menu bar status item.
     func setupMenuBar() {
-        // Create status item
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        // Initial setup based on settings
+        updateMenuBarVisibility()
 
-        // Configure button
-        if let button = statusItem?.button {
-            button.image = NSImage(
-                systemSymbolName: "lock.shield.fill",
-                accessibilityDescription: "Mac App Locker"
-            )
-            button.image?.isTemplate = true // Allows proper light/dark mode
-        }
-
-        // Set up menu
-        statusItem?.menu = createMenu()
+        // Listen for changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateMenuBarVisibility),
+            name: NSNotification.Name("UpdateMenuBarVisibility"),
+            object: nil
+        )
     }
 
-    /// Removes the menu bar status item.
+    @objc private func updateMenuBarVisibility() {
+        let shouldShow = container.settingsService.showMenuBarIcon
+
+        if shouldShow, statusItem == nil {
+            // Create status item
+            statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+
+            // Configure button
+            if let button = statusItem?.button {
+                button.image = NSImage(
+                    systemSymbolName: "lock.shield.fill",
+                    accessibilityDescription: "Mac App Locker"
+                )
+                button.image?.isTemplate = true
+            }
+
+            // Set up menu
+            statusItem?.menu = createMenu()
+        } else if !shouldShow, let statusItem {
+            // Remove status item
+            NSStatusBar.system.removeStatusItem(statusItem)
+            self.statusItem = nil
+        }
+    }
+
     /// Removes the menu bar status item.
     func tearDownMenuBar() {
         if let statusItem {

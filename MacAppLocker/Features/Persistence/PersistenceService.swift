@@ -63,6 +63,13 @@ final class PersistenceService: ObservableObject {
         logger.info("PersistenceService: Removed app \(name)")
     }
 
+    /// Updates an existing locked app.
+    @MainActor
+    func updateLockedApp(_ app: LockedApp) {
+        save()
+        logger.info("PersistenceService: Updated app \(app.name) (Locked: \(app.isLocked))")
+    }
+
     /// Fetches all locked apps.
     @MainActor
     func fetchLockedApps() -> [LockedApp] {

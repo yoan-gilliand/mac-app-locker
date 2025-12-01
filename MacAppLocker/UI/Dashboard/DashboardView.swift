@@ -67,8 +67,8 @@ struct DashboardView: View {
                     }
                     .tag(app.bundleIdentifier)
                     .contextMenu {
-                        Button("Unlock") {
-                            // TODO: Unlock app
+                        Button(app.isLocked ? "Unlock" : "Lock") {
+                            viewModel.toggleLock(for: app)
                         }
 
                         Divider()
@@ -117,9 +117,11 @@ struct DashboardView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
 
-                    Toggle("Locked", isOn: .constant(app.isLocked))
-                        .toggleStyle(.switch)
-                        .disabled(true)
+                    Toggle("Locked", isOn: Binding(
+                        get: { app.isLocked },
+                        set: { _ in viewModel.toggleLock(for: app) }
+                    ))
+                    .toggleStyle(.switch)
 
                     Spacer()
                 }

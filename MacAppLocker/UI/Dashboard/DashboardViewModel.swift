@@ -49,6 +49,12 @@ final class DashboardViewModel: ObservableObject {
         fetchLockedApps()
     }
 
+    func toggleLock(for app: LockedApp) {
+        app.isLocked.toggle()
+        persistence.updateLockedApp(app)
+        fetchLockedApps()
+    }
+
     func toggleMonitoring() {
         isMonitoring.toggle()
         if isMonitoring {

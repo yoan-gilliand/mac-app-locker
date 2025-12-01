@@ -24,11 +24,13 @@ final class DIContainer: ObservableObject {
     let appMonitorService: AppMonitorService
     let authenticationService: AuthenticationService
     let persistenceService: PersistenceService
+    let settingsService: SettingsService
 
     // MARK: - Initialization
 
     init() {
         logger = LoggerService()
+        settingsService = SettingsService()
         persistenceService = PersistenceService(logger: logger)
         authenticationService = AuthenticationService(logger: logger)
         appMonitorService = AppMonitorService(
