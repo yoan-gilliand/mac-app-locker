@@ -15,7 +15,7 @@ let package = Package(
         ),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "MacAppLocker",
             dependencies: [],
             path: "Sources"

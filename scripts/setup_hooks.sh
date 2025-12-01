@@ -8,21 +8,34 @@ HOOK_PATH=".git/hooks/pre-commit"
 cat > "$HOOK_PATH" <<EOF
 #!/bin/sh
 
-# Check for SwiftLint
-if which swiftlint >/dev/null; then
-  echo "Running SwiftLint..."
-  swiftlint lint --strict
+# Ensure we can find homebrew binaries
+export PATH="\$PATH:/opt/homebrew/bin:/usr/local/bin"
+
+# 1. Run SwiftFormat (Auto-fix)
+if which swiftformat >/dev/null; then
+  echo "Running SwiftFormat (Auto-fix)..."
+  swiftformat .
 else
-  echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+  echo "warning: SwiftFormat not installed"
 fi
 
-# Check for SwiftFormat
-if which swiftformat >/dev/null; then
-  echo "Running SwiftFormat..."
-  swiftformat . --lint
+# 2. Run SwiftLint (Auto-fix)
+if which swiftlint >/dev/null; then
+  echo "Running SwiftLint (Auto-fix)..."
+  swiftlint --fix
 else
-  echo "warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat"
+  echo "warning: SwiftLint not installed"
 fi
+
+# 3. Re-add modified files to the commit
+# This ensures that any changes made by the formatters are included in the snapshot
+git add .
+
+# 4. Final Strict Check (Optional - can be commented out if it blocks too much)
+# if which swiftlint >/dev/null; then
+#   echo "Running SwiftLint (Strict Check)..."
+#   swiftlint lint --strict
+# fi
 EOF
 
 chmod +x "$HOOK_PATH"

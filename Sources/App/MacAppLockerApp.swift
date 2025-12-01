@@ -9,7 +9,6 @@
 import SwiftData
 import SwiftUI
 
-@main
 struct MacAppLockerApp: App {
     // MARK: - Properties
 
