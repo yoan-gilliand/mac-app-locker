@@ -6,13 +6,13 @@ import PackageDescription
 let package = Package(
     name: "MacAppLocker",
     platforms: [
-        .macOS(.v14)
+        .macOS(.v14),
     ],
     products: [
         .executable(
             name: "MacAppLocker",
             targets: ["MacAppLocker"]
-        )
+        ),
     ],
     targets: [
         .executableTarget(
@@ -20,8 +20,8 @@ let package = Package(
             dependencies: [],
             path: "Sources",
             resources: [
-                .process("Resources") 
+                .process("Resources"),
             ]
-        )
+        ),
     ]
 )

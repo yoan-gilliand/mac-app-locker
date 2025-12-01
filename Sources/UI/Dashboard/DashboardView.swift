@@ -9,15 +9,14 @@
 import SwiftUI
 
 struct DashboardView: View {
-    
     // MARK: - Properties
-    
+
     @StateObject var viewModel: DashboardViewModel
     @State private var isImporterPresented: Bool = false
     @State private var selectedAppID: String?
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedAppID) {
@@ -27,7 +26,7 @@ struct DashboardView: View {
                             Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
                                 .resizable()
                                 .frame(width: 32, height: 32)
-                            
+
                             VStack(alignment: .leading) {
                                 Text(app.name)
                                     .font(.headline)
@@ -35,9 +34,9 @@ struct DashboardView: View {
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
-                            
+
                             Spacer()
-                            
+
                             if app.isLocked {
                                 Image(systemName: "lock.fill")
                                     .foregroundStyle(.secondary)
@@ -68,32 +67,33 @@ struct DashboardView: View {
                 allowsMultipleSelection: false
             ) { result in
                 switch result {
-                case .success(let urls):
+                case let .success(urls):
                     if let url = urls.first {
                         viewModel.addApp(url: url)
                     }
-                case .failure(let error):
+                case let .failure(error):
                     print("Importer failed: \(error.localizedDescription)")
                 }
             }
-            
+
         } detail: {
             if let selectedID = selectedAppID,
-               let app = viewModel.lockedApps.first(where: { $0.bundleIdentifier == selectedID }) {
+               let app = viewModel.lockedApps.first(where: { $0.bundleIdentifier == selectedID })
+            {
                 VStack(spacing: 20) {
                     Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
                         .resizable()
                         .frame(width: 128, height: 128)
-                    
+
                     Text(app.name)
                         .font(.largeTitle)
-                    
+
                     Toggle("Monitoring Active", isOn: $viewModel.isMonitoring)
                         .toggleStyle(.switch)
                         .onChange(of: viewModel.isMonitoring) { _, _ in
                             viewModel.toggleMonitoring()
                         }
-                    
+
                     Spacer()
                 }
                 .padding()

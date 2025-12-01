@@ -11,33 +11,32 @@ import SwiftData
 
 /// Service that manages data persistence.
 final class PersistenceService: ObservableObject {
-    
     // MARK: - Properties
-    
+
     private let logger: LoggerService
     let modelContainer: ModelContainer
-    
+
     @MainActor
     var modelContext: ModelContext {
         modelContainer.mainContext
     }
-    
+
     // MARK: - Initialization
-    
+
     init(logger: LoggerService) {
         self.logger = logger
-        
+
         do {
-            self.modelContainer = try ModelContainer(for: LockedApp.self)
+            modelContainer = try ModelContainer(for: LockedApp.self)
             logger.info("PersistenceService: ModelContainer initialized successfully.")
         } catch {
             logger.error("PersistenceService: Failed to initialize ModelContainer", error: error)
             fatalError("Failed to initialize ModelContainer: \(error)")
         }
     }
-    
+
     // MARK: - Public API
-    
+
     /// Adds a new app to the locked list.
     @MainActor
     func addLockedApp(_ app: LockedApp) {
@@ -45,7 +44,7 @@ final class PersistenceService: ObservableObject {
         save()
         logger.info("PersistenceService: Added app \(app.name) (\(app.bundleIdentifier))")
     }
-    
+
     /// Removes an app from the locked list.
     @MainActor
     func removeLockedApp(_ app: LockedApp) {
@@ -54,7 +53,7 @@ final class PersistenceService: ObservableObject {
         save()
         logger.info("PersistenceService: Removed app \(name)")
     }
-    
+
     /// Fetches all locked apps.
     @MainActor
     func fetchLockedApps() -> [LockedApp] {
@@ -66,7 +65,7 @@ final class PersistenceService: ObservableObject {
             return []
         }
     }
-    
+
     /// Checks if an app is locked by its bundle identifier.
     @MainActor
     func isAppLocked(bundleIdentifier: String) -> Bool {
@@ -82,9 +81,9 @@ final class PersistenceService: ObservableObject {
             return false
         }
     }
-    
+
     // MARK: - Private Helpers
-    
+
     @MainActor
     private func save() {
         do {

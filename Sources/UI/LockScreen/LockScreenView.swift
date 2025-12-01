@@ -9,22 +9,21 @@
 import SwiftUI
 
 struct LockScreenView: View {
-    
     // MARK: - Properties
-    
+
     let appName: String
     let onUnlock: () -> Void
     let onQuit: () -> Void
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         ZStack {
             // Background Blur
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 30) {
                 Image(systemName: "lock.fill")
                     .resizable()
@@ -32,17 +31,17 @@ struct LockScreenView: View {
                     .frame(width: 80, height: 80)
                     .foregroundStyle(.white)
                     .shadow(radius: 10)
-                
+
                 VStack(spacing: 10) {
                     Text("\(appName) is Locked")
                         .font(.system(size: 32, weight: .bold))
                         .foregroundStyle(.white)
-                    
+
                     Text("Authenticate to access this application.")
                         .font(.title3)
                         .foregroundStyle(.white.opacity(0.8))
                 }
-                
+
                 HStack(spacing: 20) {
                     Button(action: onQuit) {
                         VStack(spacing: 4) {
@@ -60,7 +59,7 @@ struct LockScreenView: View {
                     .controlSize(.large)
                     .tint(.red)
                     .keyboardShortcut(.cancelAction) // Esc key
-                    
+
                     Button(action: onUnlock) {
                         Label("Unlock", systemImage: "faceid")
                             .font(.title3)

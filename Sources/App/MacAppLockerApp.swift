@@ -6,18 +6,18 @@
 //  Entry point for the Mac App Locker application.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct MacAppLockerApp: App {
     // MARK: - Properties
-    
+
     /// The centralized container for all dependencies.
     @StateObject private var container = DIContainer()
-    
+
     // MARK: - Body
-    
+
     var body: some Scene {
         WindowGroup {
             DashboardView(viewModel: container.makeDashboardViewModel())
@@ -27,7 +27,7 @@ struct MacAppLockerApp: App {
         .commands {
             SidebarCommands()
         }
-        
+
         // Auxiliary windows or menu bar items can be defined here
     }
 }

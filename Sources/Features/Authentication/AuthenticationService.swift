@@ -11,31 +11,30 @@ import LocalAuthentication
 
 /// Service that handles biometric and password authentication.
 final class AuthenticationService: ObservableObject {
-    
     // MARK: - Properties
-    
+
     private let logger: LoggerService
-    
+
     // MARK: - Initialization
-    
+
     init(logger: LoggerService) {
         self.logger = logger
     }
-    
+
     // MARK: - Public API
-    
+
     /// Attempts to authenticate the user.
     /// - Returns: `true` if authentication is successful, `false` otherwise.
     func authenticate() async -> Bool {
         logger.info("AuthenticationService: Requesting authentication...")
-        
+
         let context = LAContext()
         var error: NSError?
-        
+
         // Check if biometric authentication is available
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             let reason = "Unlock application"
-            
+
             do {
                 let success = try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)
                 if success {
