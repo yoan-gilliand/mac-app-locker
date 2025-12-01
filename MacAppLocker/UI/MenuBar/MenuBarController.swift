@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Combine
 import SwiftUI
 
 /// Controller for the menu bar status item.
@@ -44,8 +45,11 @@ final class MenuBarController: ObservableObject {
     }
 
     /// Removes the menu bar status item.
+    /// Removes the menu bar status item.
     func tearDownMenuBar() {
-        NSStatusBar.system.removeStatusItem(statusItem!)
+        if let statusItem {
+            NSStatusBar.system.removeStatusItem(statusItem)
+        }
         statusItem = nil
     }
 

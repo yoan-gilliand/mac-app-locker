@@ -6,6 +6,7 @@
 //  Service responsible for persisting application data using SwiftData.
 //
 
+import Combine
 import Foundation
 import SwiftData
 

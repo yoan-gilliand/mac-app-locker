@@ -3,9 +3,10 @@
 //  MacAppLocker
 //
 //  Created by Antigravity on 2025-12-01.
-//  Service responsible for handling user authentication via LocalAuthentication (TouchID/FaceID/Password).
+//  Service handling biometric authentication (Touch ID/Face ID).
 //
 
+import Combine
 import Foundation
 import LocalAuthentication
 

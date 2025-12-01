@@ -8,7 +8,9 @@
 
 import SwiftData
 import SwiftUI
+import UniformTypeIdentifiers
 
+@main
 struct MacAppLockerApp: App {
     // MARK: - Properties
 

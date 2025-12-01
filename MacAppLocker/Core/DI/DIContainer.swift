@@ -3,10 +3,12 @@
 //  MacAppLocker
 //
 //  Created by Antigravity on 2025-12-01.
-//  Central Dependency Injection Container for the application.
+//  Singleton container managing all application dependencies.
 //
 
+import Combine
 import Foundation
+import SwiftData
 import SwiftUI
 
 /// A container responsible for managing and injecting dependencies throughout the app.
@@ -45,7 +47,7 @@ final class DIContainer: ObservableObject {
 
     /// Creates a ViewModel for the Dashboard.
     func makeDashboardViewModel() -> DashboardViewModel {
-        return DashboardViewModel(
+        DashboardViewModel(
             appMonitor: appMonitorService,
             persistence: persistenceService
         )

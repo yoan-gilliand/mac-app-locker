@@ -45,7 +45,7 @@ final class LoggerService {
     /// - Parameter message: The message to log.
     /// - Parameter error: An optional error object to log details from.
     func error(_ message: String, error: Error? = nil) {
-        if let error = error {
+        if let error {
             logger.error("🔥 \(message, privacy: .public) | Error: \(error.localizedDescription, privacy: .public)")
         } else {
             logger.error("🔥 \(message, privacy: .public)")

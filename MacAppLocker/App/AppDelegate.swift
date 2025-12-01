@@ -44,6 +44,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
         // Don't quit when window is closed - keep running in menu bar
-        return false
+        false
     }
 }

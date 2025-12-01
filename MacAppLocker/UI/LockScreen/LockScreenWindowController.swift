@@ -78,7 +78,7 @@ final class LockScreenWindowController: NSObject {
 
     /// Hides the lock screen.
     func hide() {
-        guard let window = window else { return }
+        guard let window else { return }
         logger.info("LockScreenWindowController: Hiding lock screen.")
         window.orderOut(nil) // Immediately remove from screen
         window.close()

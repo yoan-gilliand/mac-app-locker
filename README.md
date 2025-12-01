@@ -1,114 +1,107 @@
-# 🔒 Mac App Locker
+# MacAppLocker
 
-Mac App Locker is a native macOS application designed to protect your privacy by locking specific applications behind biometric authentication (Touch ID / Face ID) or a password.
+A macOS application for locking and monitoring specified applications with biometric authentication.
 
-It features a robust monitoring system that detects when protected applications are launched or activated, immediately hiding them and presenting a secure lock screen overlay.
+## Overview
 
-## ✨ Features
+MacAppLocker prevents unauthorized access to selected applications by requiring Touch ID or Face ID authentication before launch. The application runs in the menu bar and monitors specified apps in the background.
 
--   **Biometric Security**: Unlock apps using Touch ID or Face ID.
--   **Privacy First**: Locked apps are immediately **hidden** from view, including from Mission Control and the Dock.
--   **Robust Monitoring**:
-    -   **Instant Detection**: Detects app activation instantly.
-    -   **Lock Enforcer**: A background agent that continuously ensures locked apps remain hidden if they try to reappear.
-    -   **Smart Session**: Prevents annoying re-locking loops while you are using the unlocked app.
--   **Native UI**: Built with SwiftUI for a modern, seamless macOS experience.
--   **Keyboard Friendly**: Use `Esc` to quickly quit a locked app from the lock screen.
+## Features
 
-## 🛠 Technical Architecture
+- Application locking with biometric authentication
+- Menu bar status indicator
+- Real-time app launch monitoring
+- SwiftData persistence for locked app configuration
+- Native macOS UI with standard menus and keyboard shortcuts
 
-The project follows a clean **MVVM (Model-View-ViewModel)** architecture with a centralized **Dependency Injection (DI)** system.
+## Requirements
 
-### Core Components
+- macOS 14.0 or later
+- Xcode 15.0 or later (for building)
+- Touch ID or Face ID capable Mac
 
-*   **`AppMonitorService`**: The heart of the application. It observes `NSWorkspace` notifications to detect app usage, manages the "Hide & Shield" logic, and enforces security policies.
-*   **`AuthenticationService`**: Handles interaction with the `LocalAuthentication` framework.
-*   **`PersistenceService`**: Manages the list of locked applications using **SwiftData**.
-*   **`LockScreenWindowController`**: Manages the floating, high-priority window overlay that blocks access to locked apps.
-
-### Key Technologies
-
-*   **Language**: Swift 6
-*   **UI Framework**: SwiftUI & AppKit (for window management)
-*   **Data**: SwiftData
-*   **Concurrency**: Swift Concurrency (`async/await`, `@MainActor`)
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-*   **macOS 14.0 (Sonoma)** or later.
-*   **Xcode 15.0** or later.
-*   **Homebrew** (for linting tools).
-
-### Installation
-
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/yoan-gilliand/mac-app-locker.git
-    cd mac-app-locker
-    ```
-
-2.  **Install Development Tools**:
-    We use `SwiftLint` and `SwiftFormat` to enforce code quality.
-    ```bash
-    brew install swiftlint swiftformat
-    ```
-
-3.  **Setup Hooks**:
-    Run the setup script to install the git pre-commit hook. This ensures all code is formatted and linted before committing.
-    ```bash
-    chmod +x scripts/setup_hooks.sh
-    ./scripts/setup_hooks.sh
-    ```
-
-4.  **Open in Xcode**:
-    ```bash
-    open Package.swift
-    ```
-    
-    Select the `MacAppLocker` scheme and hit `Cmd+R` to build and run.
-
-## 👨‍💻 Development Workflow
-
-### Building and Testing
-
-This project uses **Xcode** for building and testing (required for SwiftData macro support):
+## Build
 
 ```bash
-# Build
-xcodebuild -scheme MacAppLocker -destination 'platform=macOS' build
-
-# Run Tests
-xcodebuild -scheme MacAppLocker -destination 'platform=macOS' test
+make build
 ```
 
-### Code Style
-The project enforces strict code style rules.
-*   **Linting**: Checked by `SwiftLint`.
-*   **Formatting**: Enforced by `SwiftFormat`.
+Or using xcodebuild directly:
 
-If you try to commit code that violates these rules, the pre-commit hook will either fix it automatically (formatting) or block the commit (linting errors).
+```bash
+xcodebuild -project MacAppLocker.xcodeproj -scheme MacAppLocker -destination 'platform=macOS' build
+```
 
-### Branching Strategy
-*   `main`: Stable, production-ready code.
-*   `develop`: Integration branch for ongoing development.
-*   `feat/feature-name`: Feature branches.
+## Test
 
-### Common Issues
+```bash
+make test
+```
 
-**SwiftLint Crash on Commit**:
-If you see `Fatal error: Loading sourcekitdInProc.framework...` during a commit, it is likely a local environment issue with SwiftLint finding the Xcode path.
-*   *Workaround*: Ensure your Xcode command line tools are selected correctly: `xcode-select -s /Applications/Xcode.app/Contents/Developer`.
+## Run
 
-## 🛡 Security Model
+```bash
+make run
+```
 
-### The "Hide & Shield" Strategy
-To prevent content leaks in Mission Control:
-1.  **Hide**: The target app is hidden (`app.hide()`) immediately upon detection.
-2.  **Shield**: A high-level `NSPanel` overlay is presented.
-3.  **Enforce**: A background loop checks every 0.5s if a locked app has become visible and re-hides it.
+Then press Cmd+R in Xcode to launch the application.
 
-## 📄 License
+## Development
 
-This project is licensed under the MIT License.
+### Code Formatting
+
+```bash
+make format
+```
+
+Requires SwiftFormat:
+```bash
+brew install swiftformat
+```
+
+### Linting
+
+```bash
+make lint
+```
+
+Requires SwiftLint:
+```bash
+brew install swiftlint
+```
+
+### Pre-commit Hook
+
+The repository includes a pre-commit hook that runs SwiftFormat and SwiftLint on staged files. It is installed at `.git/hooks/pre-commit`.
+
+## Architecture
+
+- **SwiftUI** for user interface
+- **SwiftData** for persistent storage
+- **LocalAuthentication** for biometric authentication
+- **AppKit** for menu bar integration and app monitoring
+- **MVVM** pattern with dependency injection
+
+### Project Structure
+
+```
+MacAppLocker/
+├── App/              # Application entry point and lifecycle
+├── Core/             # Core utilities (DI, logging)
+├── Features/         # Feature modules (auth, monitoring, persistence)
+└── UI/               # User interface components
+```
+
+## Usage
+
+1. Launch MacAppLocker
+2. Click the lock icon in the menu bar
+3. Select "Show Dashboard"
+4. Click "Add App" to add applications to lock
+5. Select an application bundle (.app) to monitor
+
+When a locked application is launched, MacAppLocker will prompt for authentication before allowing access.
+
+## License
+
+See LICENSE file for details.

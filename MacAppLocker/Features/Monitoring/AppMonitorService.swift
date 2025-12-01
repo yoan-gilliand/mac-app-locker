@@ -74,7 +74,7 @@ final class AppMonitorService: ObservableObject {
                 try? await Task.sleep(nanoseconds: 500_000_000)
 
                 for app in currentlyLockedApps {
-                    if !app.isTerminated && !app.isHidden {
+                    if !app.isTerminated, !app.isHidden {
                         logger.debug("Enforcer: Re-hiding \(app.localizedName ?? "App")")
                         app.hide()
 
@@ -162,7 +162,7 @@ final class AppMonitorService: ObservableObject {
         )
 
         // 3. Aggressively hide the app
-        for i in 1 ... 5 {
+        for _ in 1 ... 5 {
             if app.isHidden { break }
             app.hide()
             try? await Task.sleep(nanoseconds: 50_000_000)
