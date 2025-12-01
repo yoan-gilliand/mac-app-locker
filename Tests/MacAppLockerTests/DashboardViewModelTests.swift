@@ -45,7 +45,7 @@ final class DashboardViewModelTests: XCTestCase {
         // Create a dummy URL for an app
         let url = URL(fileURLWithPath: "/Applications/Safari.app")
 
-        viewModel.addApp(at: url)
+        viewModel.addApp(url: url)
 
         XCTAssertEqual(viewModel.lockedApps.count, 1)
         let addedApp = viewModel.lockedApps.first
@@ -58,7 +58,7 @@ final class DashboardViewModelTests: XCTestCase {
 
     func testRemoveApp() {
         let url = URL(fileURLWithPath: "/Applications/Safari.app")
-        viewModel.addApp(at: url)
+        viewModel.addApp(url: url)
 
         guard let app = viewModel.lockedApps.first else {
             XCTFail("App should have been added")
