@@ -15,13 +15,17 @@ let package = Package(
         ),
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "MacAppLocker",
             dependencies: [],
-            path: "Sources",
-            resources: [
-                .process("Resources"),
-            ]
+            path: "Sources"
+            // Removed Resources until we actually have assets to bundle
+            // resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "MacAppLockerTests",
+            dependencies: ["MacAppLocker"],
+            path: "Tests"
         ),
     ]
 )

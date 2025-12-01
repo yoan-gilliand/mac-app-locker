@@ -23,12 +23,14 @@ final class PersistenceService: ObservableObject {
 
     // MARK: - Initialization
 
-    init(logger: LoggerService) {
+    init(logger: LoggerService, inMemory: Bool = false) {
         self.logger = logger
 
         do {
-            modelContainer = try ModelContainer(for: LockedApp.self)
-            logger.info("PersistenceService: ModelContainer initialized successfully.")
+            let schema = Schema([LockedApp.self])
+            let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
+            modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            logger.info("PersistenceService: ModelContainer initialized successfully (inMemory: \(inMemory)).")
         } catch {
             logger.error("PersistenceService: Failed to initialize ModelContainer", error: error)
             fatalError("Failed to initialize ModelContainer: \(error)")
