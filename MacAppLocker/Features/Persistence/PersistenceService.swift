@@ -1,16 +1,21 @@
 //
-//  PersistenceService.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        PersistenceService.swift
+// @brief       File: PersistenceService.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Service for persisting locked application data using SwiftData.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Service responsible for persisting application data using SwiftData.
-//
-
 import Combine
 import Foundation
 import SwiftData
 
-/// Service that manages data persistence.
 final class PersistenceService: ObservableObject {
     // MARK: - Properties
 
@@ -40,10 +45,8 @@ final class PersistenceService: ObservableObject {
 
     // MARK: - Public API
 
-    /// Adds a new app to the locked list.
     @MainActor
     func addLockedApp(_ app: LockedApp) {
-        // Check if app with same bundleIdentifier already exists
         if isAppLocked(bundleIdentifier: app.bundleIdentifier) {
             logger.warning("PersistenceService: App with bundle ID \(app.bundleIdentifier) already exists, skipping add.")
             return
@@ -54,7 +57,6 @@ final class PersistenceService: ObservableObject {
         logger.info("PersistenceService: Added app \(app.name) (\(app.bundleIdentifier))")
     }
 
-    /// Removes an app from the locked list.
     @MainActor
     func removeLockedApp(_ app: LockedApp) {
         let name = app.name
@@ -63,14 +65,12 @@ final class PersistenceService: ObservableObject {
         logger.info("PersistenceService: Removed app \(name)")
     }
 
-    /// Updates an existing locked app.
     @MainActor
     func updateLockedApp(_ app: LockedApp) {
         save()
         logger.info("PersistenceService: Updated app \(app.name) (Locked: \(app.isLocked))")
     }
 
-    /// Fetches all locked apps.
     @MainActor
     func fetchLockedApps() -> [LockedApp] {
         let descriptor = FetchDescriptor<LockedApp>(sortBy: [SortDescriptor(\.name)])
@@ -82,10 +82,8 @@ final class PersistenceService: ObservableObject {
         }
     }
 
-    /// Checks if an app is locked by its bundle identifier.
     @MainActor
     func isAppLocked(bundleIdentifier: String) -> Bool {
-        // Note: This is a synchronous fetch on the main thread. For high frequency checks, caching might be needed.
         let descriptor = FetchDescriptor<LockedApp>(
             predicate: #Predicate<LockedApp> { $0.bundleIdentifier == bundleIdentifier && $0.isLocked }
         )

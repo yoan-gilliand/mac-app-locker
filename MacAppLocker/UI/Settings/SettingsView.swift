@@ -1,11 +1,17 @@
 //
-//  SettingsView.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        SettingsView.swift
+// @brief       File: SettingsView.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// View for managing application settings.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Settings window for Mac App Locker.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -18,19 +24,16 @@ struct SettingsView: View {
 
     var body: some View {
         TabView {
-            // General Tab
             generalTab
                 .tabItem {
                     Label("General", systemImage: "gear")
                 }
 
-            // Security Tab
             securityTab
                 .tabItem {
                     Label("Security", systemImage: "lock.shield")
                 }
 
-            // Advanced Tab
             advancedTab
                 .tabItem {
                     Label("Advanced", systemImage: "slider.horizontal.3")
@@ -66,7 +69,6 @@ struct SettingsView: View {
     private var securityTab: some View {
         Form {
             Section {
-                // These are not yet in SettingsService, using AppStorage for now or need to add them
                 Toggle("Require Authentication to Unlock", isOn: Binding(
                     get: { UserDefaults.standard.bool(forKey: "requireAuthToUnlock") },
                     set: { UserDefaults.standard.set($0, forKey: "requireAuthToUnlock") }

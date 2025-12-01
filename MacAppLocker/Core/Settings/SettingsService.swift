@@ -1,11 +1,17 @@
 //
-//  SettingsService.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        SettingsService.swift
+// @brief       File: SettingsService.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Service for managing user preferences and settings.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Service to observe and apply application settings.
-//
-
 import AppKit
 import Combine
 import SwiftUI
@@ -44,9 +50,7 @@ final class SettingsService: ObservableObject {
         showMenuBarIcon = defaults.object(forKey: "showMenuBarIcon") as? Bool ?? true
         showDockIcon = defaults.object(forKey: "showDockIcon") as? Bool ?? true
 
-        // Apply initial state
         updateDockVisibility()
-        // Menu bar visibility is handled by AppDelegate/MenuBarController via observation or direct call
     }
 
     // MARK: - Private Methods
@@ -58,14 +62,12 @@ final class SettingsService: ObservableObject {
             NSApp.setActivationPolicy(.accessory)
         }
 
-        // If we just showed the dock icon, we might want to activate the app
         if showDockIcon {
             NSApp.activate(ignoringOtherApps: true)
         }
     }
 
     private func updateMenuBarVisibility() {
-        // Post notification for AppDelegate/MenuBarController to handle
         NotificationCenter.default.post(name: NSNotification.Name("UpdateMenuBarVisibility"), object: nil)
     }
 }

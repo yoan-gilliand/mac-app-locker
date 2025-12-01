@@ -1,11 +1,17 @@
 //
-//  AboutView.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        AboutView.swift
+// @brief       File: AboutView.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// View displaying application information and version.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  About window for Mac App Locker.
-//
-
 import SwiftUI
 
 struct AboutView: View {
@@ -13,13 +19,11 @@ struct AboutView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // App Icon (placeholder - will be replaced with actual icon)
             Image(systemName: "lock.shield.fill")
                 .font(.system(size: 80))
                 .foregroundStyle(.blue.gradient)
                 .padding(.top, 30)
 
-            // App Name and Version
             VStack(spacing: 8) {
                 Text("Mac App Locker")
                     .font(.title)
@@ -33,7 +37,6 @@ struct AboutView: View {
             Divider()
                 .padding(.horizontal, 40)
 
-            // Description
             VStack(spacing: 12) {
                 Text("A secure application locker for macOS")
                     .font(.body)
@@ -49,7 +52,6 @@ struct AboutView: View {
             Divider()
                 .padding(.horizontal, 40)
 
-            // Credits
             VStack(spacing: 4) {
                 Text("© 2025 Yoan Gilliand")
                     .font(.caption)
@@ -66,7 +68,6 @@ struct AboutView: View {
 
             Spacer()
 
-            // Close Button
             HStack {
                 Spacer()
                 Button("Close") {

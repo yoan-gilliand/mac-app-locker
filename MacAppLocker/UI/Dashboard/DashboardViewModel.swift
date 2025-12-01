@@ -1,15 +1,20 @@
 //
-//  DashboardViewModel.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        DashboardViewModel.swift
+// @brief       File: DashboardViewModel.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// ViewModel for the DashboardView, handling business logic.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  ViewModel for the main Dashboard view.
-//
-
 import Combine
 import Foundation
 
-/// ViewModel managing the state of the Dashboard.
 @MainActor
 final class DashboardViewModel: ObservableObject {
     // MARK: - Properties
@@ -26,10 +31,8 @@ final class DashboardViewModel: ObservableObject {
         self.appMonitor = appMonitor
         self.persistence = persistence
 
-        // Load initial data
         fetchLockedApps()
 
-        // Start monitoring by default (or based on settings)
         startMonitoring()
     }
 

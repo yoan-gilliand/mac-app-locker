@@ -1,15 +1,20 @@
 //
-//  MacAppLockerTests.swift
-//  MacAppLockerTests
+// ******************************************************************************
+// @file        MacAppLockerTests.swift
+// @brief       File: MacAppLockerTests.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Unit tests for MacAppLocker.
+// ******************************************************************************
 //
-//  Created by Yoan Gilliand on 01.12.2025.
-//
-
 @testable import MacAppLocker
 import Testing
 
 struct MacAppLockerTests {
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
+    @Test func example() async throws {}
 }

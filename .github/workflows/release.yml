@@ -1,7 +1,7 @@
 #
 #******************************************************************************
-# @file        ci.yml
-# @brief       File: ci.yml
+# @file        release.yml
+# @brief       File: release.yml
 # @author      Yoan Gilliand
 # @editor      Yoan Gilliand
 # @date        01 Dec 2025
@@ -9,19 +9,18 @@
 # @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
 #******************************************************************************
 # @details
-# GitHub Actions workflow for Continuous Integration.
+# GitHub Actions workflow for Release automation.
 #******************************************************************************
 #
-name: CI
+name: Release
 
 on:
   push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ "**" ]
+    tags:
+      - 'v*'
 
 jobs:
-  build-and-test:
+  release:
     runs-on: macos-latest
     
     steps:
@@ -30,21 +29,23 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
     
-    - name: Build
+    - name: Build Release
       run: |
         xcodebuild -project MacAppLocker.xcodeproj \
           -scheme MacAppLocker \
           -destination 'platform=macOS' \
-          build
-    
-    - name: Run Tests
+          -configuration Release \
+          clean build
+          
+    - name: Archive App
       run: |
-        xcodebuild -project MacAppLocker.xcodeproj \
-          -scheme MacAppLocker \
-          -destination 'platform=macOS' \
-          test
-    
-    - name: SwiftLint
-      run: |
-        brew install swiftlint
-        swiftlint lint --strict
+        cd ~/Library/Developer/Xcode/DerivedData/MacAppLocker-*/Build/Products/Release
+        zip -r MacAppLocker.zip MacAppLocker.app
+        echo "ARCHIVE_PATH=$(pwd)/MacAppLocker.zip" >> $GITHUB_ENV
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: ${{ env.ARCHIVE_PATH }}
+        generate_release_notes: true

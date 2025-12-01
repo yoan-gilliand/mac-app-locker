@@ -1,23 +1,33 @@
+#
+#******************************************************************************
+# @file        Makefile
+# @brief       File: Makefile
+# @author      Yoan Gilliand
+# @editor      Yoan Gilliand
+# @date        01 Dec 2025
+#******************************************************************************
+# @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+#******************************************************************************
+# @details
+# Build configuration and automation scripts.
+#******************************************************************************
+#
 .PHONY: build test clean format lint archive run help
 
-## Build the application
 build:
 	@echo "🔨 Building MacAppLocker..."
 	xcodebuild -project MacAppLocker.xcodeproj -scheme MacAppLocker -destination 'platform=macOS' build
 
-## Run all tests
 test:
 	@echo "🧪 Running tests..."
 	xcodebuild -project MacAppLocker.xcodeproj -scheme MacAppLocker -destination 'platform=macOS' test
 
-## Clean build artifacts
 clean:
 	@echo "🧹 Cleaning..."
 	xcodebuild -project MacAppLocker.xcodeproj -scheme MacAppLocker clean
 	@rm -rf ~/Library/Developer/Xcode/DerivedData/MacAppLocker-*
 	@echo "✅ Clean complete"
 
-## Format code with SwiftFormat
 format:
 	@echo "🎨 Formatting code..."
 	@if command -v swiftformat >/dev/null 2>&1; then \
@@ -31,7 +41,6 @@ format:
 		swiftlint --fix --quiet; \
 	fi
 
-## Lint code with SwiftLint
 lint:
 	@echo "🔍 Linting code..."
 	@if command -v swiftlint >/dev/null 2>&1; then \
@@ -41,7 +50,6 @@ lint:
 		exit 1; \
 	fi
 
-## Build release version
 archive:
 	@echo "📦 Building release version..."
 	xcodebuild -project MacAppLocker.xcodeproj \
@@ -53,13 +61,11 @@ archive:
 	@echo "✅ Build complete! App location:"
 	@find ~/Library/Developer/Xcode/DerivedData -name "MacAppLocker.app" -path "*/Build/Products/Release/*" 2>/dev/null | head -1
 
-## Open project in Xcode
 run:
 	@echo "🚀 Opening in Xcode..."
 	open MacAppLocker.xcodeproj
 	@echo "Press Cmd+R in Xcode to run the app"
 
-## Show available commands
 help:
 	@echo "MacAppLocker - Available commands:"
 	@echo ""

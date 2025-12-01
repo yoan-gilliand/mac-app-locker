@@ -1,11 +1,17 @@
 //
-//  DashboardView.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        DashboardView.swift
+// @brief       File: DashboardView.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Main dashboard view for managing locked applications.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Main view displaying the list of locked applications.
-//
-
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -22,7 +28,6 @@ struct DashboardView: View {
     var body: some View {
         NavigationSplitView {
             VStack(spacing: 0) {
-                // Header with title and add button
                 HStack {
                     Text("Locked Applications")
                         .font(.title2)
@@ -41,7 +46,6 @@ struct DashboardView: View {
 
                 Divider()
 
-                // Apps List
                 List(viewModel.lockedApps, id: \.bundleIdentifier, selection: $selectedAppID) { app in
                     HStack {
                         Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
@@ -147,7 +151,6 @@ struct DashboardView: View {
             openWindow(id: "about")
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowDashboard"))) { _ in
-            // Ensure this window is front
             if let window = NSApp.windows.first(where: { $0.identifier?.rawValue.contains("WindowGroup") ?? false }) {
                 window.makeKeyAndOrderFront(nil)
             }

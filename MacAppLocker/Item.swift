@@ -1,10 +1,17 @@
 //
-//  Item.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        Item.swift
+// @brief       File: Item.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Model item definition.
+// ******************************************************************************
 //
-//  Created by Yoan Gilliand on 01.12.2025.
-//
-
 import Foundation
 import SwiftData
 

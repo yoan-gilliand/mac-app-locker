@@ -1,16 +1,21 @@
 //
-//  AuthenticationService.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        AuthenticationService.swift
+// @brief       File: AuthenticationService.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Service for handling user authentication via Touch ID or password.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Service handling biometric authentication (Touch ID/Face ID).
-//
-
 import Combine
 import Foundation
 import LocalAuthentication
 
-/// Service that handles biometric and password authentication.
 final class AuthenticationService: ObservableObject {
     // MARK: - Properties
 
@@ -24,15 +29,12 @@ final class AuthenticationService: ObservableObject {
 
     // MARK: - Public API
 
-    /// Attempts to authenticate the user.
-    /// - Returns: `true` if authentication is successful, `false` otherwise.
     func authenticate() async -> Bool {
         logger.info("AuthenticationService: Requesting authentication...")
 
         let context = LAContext()
         var error: NSError?
 
-        // Check if biometric authentication is available
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             let reason = "Unlock application"
 
@@ -51,7 +53,6 @@ final class AuthenticationService: ObservableObject {
             }
         } else {
             logger.error("AuthenticationService: Biometrics not available", error: error)
-            // Fallback to password or other method if needed
             return false
         }
     }

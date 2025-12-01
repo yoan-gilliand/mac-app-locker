@@ -1,15 +1,21 @@
 //
-//  MacAppLockerUITestsLaunchTests.swift
-//  MacAppLockerUITests
+// ******************************************************************************
+// @file        MacAppLockerUITestsLaunchTests.swift
+// @brief       File: MacAppLockerUITestsLaunchTests.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Launch tests for MacAppLocker.
+// ******************************************************************************
 //
-//  Created by Yoan Gilliand on 01.12.2025.
-//
-
 import XCTest
 
 final class MacAppLockerUITestsLaunchTests: XCTestCase {
-    // swiftlint:disable:next static_over_final_class
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
+    override static var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
 
@@ -21,9 +27,6 @@ final class MacAppLockerUITestsLaunchTests: XCTestCase {
     func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"

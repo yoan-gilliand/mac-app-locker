@@ -1,11 +1,17 @@
 //
-//  LockedApp.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        LockedApp.swift
+// @brief       File: LockedApp.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Data model representing a locked application.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  SwiftData model representing an application that is locked.
-//
-
 import Foundation
 import SwiftData
 
@@ -13,19 +19,14 @@ import SwiftData
 final class LockedApp {
     // MARK: - Properties
 
-    /// The unique bundle identifier of the application (e.g., "com.apple.Safari").
     @Attribute(.unique) var bundleIdentifier: String
 
-    /// The display name of the application.
     var name: String
 
-    /// The path to the application bundle.
     var path: String
 
-    /// Date when the app was added to the locker.
     var dateAdded: Date
 
-    /// Whether the lock is currently active for this app.
     var isLocked: Bool
 
     // MARK: - Initialization

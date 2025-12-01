@@ -1,15 +1,20 @@
 //
-//  LoggerService.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        LoggerService.swift
+// @brief       File: LoggerService.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Service for logging application events and errors.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Centralized logging service wrapping OSLog.
-//
-
 import Foundation
 import OSLog
 
-/// A service dedicated to logging application events, errors, and debug information.
 final class LoggerService {
     // MARK: - Properties
 
@@ -23,27 +28,18 @@ final class LoggerService {
 
     // MARK: - Public API
 
-    /// Logs a debug message.
-    /// - Parameter message: The message to log.
     func debug(_ message: String) {
         logger.debug("🔎 \(message, privacy: .public)")
     }
 
-    /// Logs an informational message.
-    /// - Parameter message: The message to log.
     func info(_ message: String) {
         logger.info("ℹ️ \(message, privacy: .public)")
     }
 
-    /// Logs a warning message.
-    /// - Parameter message: The message to log.
     func warning(_ message: String) {
         logger.warning("⚠️ \(message, privacy: .public)")
     }
 
-    /// Logs an error message.
-    /// - Parameter message: The message to log.
-    /// - Parameter error: An optional error object to log details from.
     func error(_ message: String, error: Error? = nil) {
         if let error {
             logger.error("🔥 \(message, privacy: .public) | Error: \(error.localizedDescription, privacy: .public)")

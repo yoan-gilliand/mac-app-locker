@@ -1,11 +1,17 @@
 //
-//  LockScreenView.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        LockScreenView.swift
+// @brief       File: LockScreenView.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// View for the lock screen overlay.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  The visual interface for the lock screen overlay.
-//
-
 import SwiftUI
 
 struct LockScreenView: View {
@@ -19,7 +25,6 @@ struct LockScreenView: View {
 
     var body: some View {
         ZStack {
-            // Background Blur
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
@@ -83,7 +88,6 @@ struct LockScreenView: View {
             }
             .padding()
 
-            // Footer Keybind Hint
             VStack {
                 Spacer()
                 Text("Press 'Cmd + Q' to Quit")
@@ -96,7 +100,6 @@ struct LockScreenView: View {
         .background(
             ZStack {
                 Color.black.opacity(0.6)
-                // Add a subtle gradient overlay for richness
                 LinearGradient(
                     colors: [.black.opacity(0.4), .blue.opacity(0.1)],
                     startPoint: .top,
@@ -106,7 +109,3 @@ struct LockScreenView: View {
         )
     }
 }
-
-// #Preview {
-//     LockScreenView(appName: "Safari", onUnlock: {}, onQuit: {})
-// }

@@ -1,21 +1,24 @@
 //
-//  DIContainer.swift
-//  MacAppLocker
+// ******************************************************************************
+// @file        DIContainer.swift
+// @brief       File: DIContainer.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Dependency Injection container for managing app services.
+// ******************************************************************************
 //
-//  Created by Antigravity on 2025-12-01.
-//  Singleton container managing all application dependencies.
-//
-
 import Combine
 import Foundation
 import SwiftData
 import SwiftUI
 
-/// A container responsible for managing and injecting dependencies throughout the app.
-/// This follows a Service Locator pattern simplified for SwiftUI environment usage.
 @MainActor
 final class DIContainer: ObservableObject {
-    /// Shared singleton instance.
     static let shared = DIContainer()
 
     // MARK: - Services
@@ -39,18 +42,15 @@ final class DIContainer: ObservableObject {
             authenticationService: authenticationService
         )
 
-        // Initialize services
         setupServices()
     }
 
     private func setupServices() {
         logger.info("DIContainer: Initializing services...")
-        // Additional setup if needed
     }
 
     // MARK: - Factory Methods
 
-    /// Creates a ViewModel for the Dashboard.
     func makeDashboardViewModel() -> DashboardViewModel {
         DashboardViewModel(
             appMonitor: appMonitorService,
