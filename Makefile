@@ -26,6 +26,7 @@ fix: ## Auto-fix linting issues
 	swiftformat .
 	swiftlint --fix
 
-run: ## Build and run the app
-	xcodebuild -scheme MacAppLocker -destination 'platform=macOS' build
-	open .build/Build/Products/Debug/MacAppLocker.app
+run: ## Build and run the app (use Xcode GUI instead)
+	@echo "To run the app, use Xcode:"
+	@echo "  open Package.swift"
+	@echo "  Then press Cmd+R"

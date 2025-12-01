@@ -42,6 +42,12 @@ final class PersistenceService: ObservableObject {
     /// Adds a new app to the locked list.
     @MainActor
     func addLockedApp(_ app: LockedApp) {
+        // Check if app with same bundleIdentifier already exists
+        if isAppLocked(bundleIdentifier: app.bundleIdentifier) {
+            logger.warning("PersistenceService: App with bundle ID \(app.bundleIdentifier) already exists, skipping add.")
+            return
+        }
+
         modelContext.insert(app)
         save()
         logger.info("PersistenceService: Added app \(app.name) (\(app.bundleIdentifier))")
