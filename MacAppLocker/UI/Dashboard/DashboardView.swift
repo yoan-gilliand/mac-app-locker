@@ -1,0 +1,159 @@
+//
+// ******************************************************************************
+// @file        DashboardView.swift
+// @brief       File: DashboardView.swift
+// @author      Yoan Gilliand
+// @editor      Yoan Gilliand
+// @date        01 Dec 2025
+// ******************************************************************************
+// @copyright   Copyright (c) 2025 Yoan Gilliand. All rights reserved.
+// ******************************************************************************
+// @details
+// Main dashboard view for managing locked applications.
+// ******************************************************************************
+//
+import SwiftUI
+import UniformTypeIdentifiers
+
+struct DashboardView: View {
+    // MARK: - Properties
+
+    @StateObject var viewModel: DashboardViewModel
+    @State private var selectedAppID: String?
+    @State private var isImporting = false
+    @Environment(\.openWindow) private var openWindow
+
+    // MARK: - Body
+
+    var body: some View {
+        NavigationSplitView {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Locked Applications")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+
+                    Spacer()
+
+                    Button {
+                        isImporting = true
+                    } label: {
+                        Label("Add App", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+
+                Divider()
+
+                List(viewModel.lockedApps, id: \.bundleIdentifier, selection: $selectedAppID) { app in
+                    HStack {
+                        Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
+                            .resizable()
+                            .frame(width: 32, height: 32)
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(app.name)
+                                .font(.headline)
+
+                            Text(app.bundleIdentifier)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+
+                        Spacer()
+
+                        if app.isLocked {
+                            Image(systemName: "lock.fill")
+                                .foregroundColor(.blue)
+                                .help("Locked")
+                        }
+                    }
+                    .tag(app.bundleIdentifier)
+                    .contextMenu {
+                        Button(app.isLocked ? "Unlock" : "Lock") {
+                            viewModel.toggleLock(for: app)
+                        }
+
+                        Divider()
+
+                        Button("Remove", role: .destructive) {
+                            viewModel.removeApp(app)
+                        }
+                    }
+                }
+            }
+            .frame(minWidth: 300)
+            .toolbar {
+                ToolbarItem(placement: .status) {
+                    Text("\(viewModel.lockedApps.count) apps")
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .fileImporter(
+                isPresented: $isImporting,
+                allowedContentTypes: [.application],
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                case let .success(urls):
+                    guard let url = urls.first else { return }
+                    let appName = url.deletingPathExtension().lastPathComponent
+                    let bundleID = Bundle(url: url)?.bundleIdentifier ?? "unknown.app"
+                    let newApp = LockedApp(bundleIdentifier: bundleID, name: appName, path: url.path)
+                    viewModel.addApp(newApp)
+                case let .failure(error):
+                    print("Importer failed: \(error.localizedDescription)")
+                }
+            }
+        } detail: {
+            if let selectedID = selectedAppID,
+               let app = viewModel.lockedApps.first(where: { $0.bundleIdentifier == selectedID }) {
+                VStack(spacing: 20) {
+                    Image(nsImage: NSWorkspace.shared.icon(forFile: app.path))
+                        .resizable()
+                        .frame(width: 128, height: 128)
+
+                    Text(app.name)
+                        .font(.title)
+
+                    Text("Bundle ID: \(app.bundleIdentifier)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    Toggle("Locked", isOn: Binding(
+                        get: { app.isLocked },
+                        set: { _ in viewModel.toggleLock(for: app) }
+                    ))
+                    .toggleStyle(.switch)
+
+                    Spacer()
+                }
+                .padding()
+            } else {
+                ContentUnavailableView(
+                    "Select an Application",
+                    systemImage: "app.dashed",
+                    description: Text("Choose an app from the list to view its details")
+                )
+            }
+        }
+        .onAppear {
+            viewModel.fetchLockedApps()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("RefreshDashboard"))) { _ in
+            viewModel.fetchLockedApps()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowSettings"))) { _ in
+            openWindow(id: "settings")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowAbout"))) { _ in
+            openWindow(id: "about")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowDashboard"))) { _ in
+            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue.contains("WindowGroup") ?? false }) {
+                window.makeKeyAndOrderFront(nil)
+            }
+        }
+    }
+}
