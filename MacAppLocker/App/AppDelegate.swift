@@ -40,4 +40,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Don't quit when window is closed - keep running in menu bar
         false
     }
+
+    func applicationShouldHandleReopen(_: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            // If no windows are visible, show the dashboard
+            NotificationCenter.default.post(name: NSNotification.Name("ShowDashboard"), object: nil)
+        }
+        return true
+    }
 }
