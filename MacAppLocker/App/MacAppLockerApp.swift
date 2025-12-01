@@ -15,14 +15,14 @@ struct MacAppLockerApp: App {
     // MARK: - Properties
 
     /// The centralized container for all dependencies.
-    @StateObject private var container = DIContainer()
+    @StateObject private var container = DIContainer.shared
 
     /// App delegate for lifecycle management
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    // Window state
-    @State private var showingSettings = false
-    @State private var showingAbout = false
+    // Window state - removed as we use openWindow
+    // @State private var showingSettings = false
+    // @State private var showingAbout = false
 
     // MARK: - Body
 
@@ -46,13 +46,13 @@ struct MacAppLockerApp: App {
             // Add About and Preferences to App menu
             CommandGroup(replacing: .appInfo) {
                 Button("About Mac App Locker") {
-                    showingAbout = true
+                    NotificationCenter.default.post(name: NSNotification.Name("ShowAbout"), object: nil)
                 }
             }
 
             CommandGroup(replacing: .appSettings) {
                 Button("Preferences...") {
-                    showingSettings = true
+                    NotificationCenter.default.post(name: NSNotification.Name("ShowSettings"), object: nil)
                 }
                 .keyboardShortcut(",", modifiers: .command)
             }
@@ -96,8 +96,8 @@ struct MacAppLockerApp: App {
     // MARK: - Helper Methods
 
     private func openAppPicker() {
-        // Get main window
-        guard let window = NSApp.windows.first(where: { $0.identifier?.rawValue.contains("WindowGroup") ?? false }) else {
+        // Get main window - try key, then main, then first window
+        guard let window = NSApp.keyWindow ?? NSApp.mainWindow ?? NSApp.windows.first else {
             return
         }
 

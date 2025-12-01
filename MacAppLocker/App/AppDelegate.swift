@@ -20,14 +20,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Application Lifecycle
 
     func applicationDidFinishLaunching(_: Notification) {
-        // Get container from the app
-        guard let app = NSApp.delegate as? NSObject,
-              let container = Mirror(reflecting: app).children.first(where: { $0.label == "container" })?.value as? DIContainer
-        else {
-            print("⚠️ Could not get DIContainer from app")
-            return
-        }
-
+        // Get container
+        let container = DIContainer.shared
         self.container = container
 
         // Setup menu bar

@@ -104,18 +104,18 @@ final class MenuBarController: ObservableObject {
     }
 
     @objc private func showDashboardWindow() {
-        // Activate the app and show all windows
+        // Activate the app
         NSApp.activate(ignoringOtherApps: true)
 
-        // Find and show the main window
-        if let window = NSApp.windows.first(where: { $0.identifier?.rawValue.contains("WindowGroup") ?? false }) {
-            window.makeKeyAndOrderFront(nil)
-        }
+        // Post notification to show dashboard
+        NotificationCenter.default.post(name: NSNotification.Name("ShowDashboard"), object: nil)
     }
 
     @objc private func showPreferences() {
-        // Open Settings window by sending the standard preferences action
+        // Activate the app
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+
+        // Post notification to show settings
+        NotificationCenter.default.post(name: NSNotification.Name("ShowSettings"), object: nil)
     }
 }

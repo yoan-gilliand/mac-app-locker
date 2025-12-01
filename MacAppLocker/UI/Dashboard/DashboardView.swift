@@ -15,6 +15,7 @@ struct DashboardView: View {
     @StateObject var viewModel: DashboardViewModel
     @State private var selectedAppID: String?
     @State private var isImporting = false
+    @Environment(\.openWindow) private var openWindow
 
     // MARK: - Body
 
@@ -133,14 +134,20 @@ struct DashboardView: View {
         }
         .onAppear {
             viewModel.fetchLockedApps()
-
-            // Listen for refresh notifications
-            NotificationCenter.default.addObserver(
-                forName: NSNotification.Name("RefreshDashboard"),
-                object: nil,
-                queue: .main
-            ) { _ in
-                viewModel.fetchLockedApps()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("RefreshDashboard"))) { _ in
+            viewModel.fetchLockedApps()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowSettings"))) { _ in
+            openWindow(id: "settings")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowAbout"))) { _ in
+            openWindow(id: "about")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowDashboard"))) { _ in
+            // Ensure this window is front
+            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue.contains("WindowGroup") ?? false }) {
+                window.makeKeyAndOrderFront(nil)
             }
         }
     }

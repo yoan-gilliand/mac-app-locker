@@ -15,6 +15,9 @@ import SwiftUI
 /// This follows a Service Locator pattern simplified for SwiftUI environment usage.
 @MainActor
 final class DIContainer: ObservableObject {
+    /// Shared singleton instance.
+    static let shared = DIContainer()
+
     // MARK: - Services
 
     let logger: LoggerService
