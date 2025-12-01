@@ -87,7 +87,7 @@ final class PersistenceService: ObservableObject {
     func isAppLocked(bundleIdentifier: String) -> Bool {
         // Note: This is a synchronous fetch on the main thread. For high frequency checks, caching might be needed.
         let descriptor = FetchDescriptor<LockedApp>(
-            predicate: #Predicate<LockedApp> { $0.bundleIdentifier == bundleIdentifier }
+            predicate: #Predicate<LockedApp> { $0.bundleIdentifier == bundleIdentifier && $0.isLocked }
         )
         do {
             let count = try modelContext.fetchCount(descriptor)
