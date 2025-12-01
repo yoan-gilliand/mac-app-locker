@@ -39,28 +39,8 @@ final class DashboardViewModel: ObservableObject {
         lockedApps = persistence.fetchLockedApps()
     }
 
-    func addApp(url: URL) {
-        guard let bundle = Bundle(url: url),
-              let bundleIdentifier = bundle.bundleIdentifier,
-              let info = bundle.infoDictionary,
-              let name = info["CFBundleName"] as? String ?? info["CFBundleDisplayName"] as? String
-        else {
-            // Handle error: Not a valid app bundle
-            return
-        }
-
-        // Check if already exists
-        if lockedApps.contains(where: { $0.bundleIdentifier == bundleIdentifier }) {
-            return
-        }
-
-        let newApp = LockedApp(
-            bundleIdentifier: bundleIdentifier,
-            name: name,
-            path: url.path
-        )
-
-        persistence.addLockedApp(newApp)
+    func addApp(_ app: LockedApp) {
+        persistence.addLockedApp(app)
         fetchLockedApps()
     }
 

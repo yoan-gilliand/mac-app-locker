@@ -1,5 +1,5 @@
 # Xcode
-#
+.DS_Store
 build/
 *.pbxuser
 !default.pbxuser
@@ -9,25 +9,50 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
+xcuserdata/
 *.xccheckout
 *.moved-aside
-DerivedData
+DerivedData/
 *.hmap
 *.ipa
 *.xcuserstate
-
-# Swift Package Manager
-#
-.build/
-# .swiftpm/ - Commented out to allow sharing Xcode schemes
+*.xcscmblueprint
+*.xcworkspace
+!default.xcworkspace
+contents.xcworkspacedata
 
 # CocoaPods
-#
-# We aren't using Pods, but good to have
 Pods/
-*.xcworkspace
 
-# Package.resolved is tracked for reproducible builds
-# !Package.resolved
-Start
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+Package.resolved
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code coverage
+*.gcda
+*.gcno
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Backup files
+*~
+*.swp
+*.swo
